@@ -1,0 +1,12 @@
+body {
+    background-color: #d299b8;
+}
+button {
+    background-color: #dc79b0;
+    color: #e80784;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
