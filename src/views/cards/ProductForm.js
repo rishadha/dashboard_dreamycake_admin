@@ -11,6 +11,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
+import axios from 'axios';
 
 const Input = styled('input')({
   display: 'none',
@@ -18,6 +19,7 @@ const Input = styled('input')({
 
 const ProductForm = () => {
   const [product, setProduct] = useState({
+    id:'',
     name: '',
     description: '',
     price: '',
@@ -33,6 +35,15 @@ const ProductForm = () => {
     });
   };
 
+  const handleIdChange = (event) => {
+    const { name, value } = event.target;
+    setProduct({
+      ...product,
+      [name]: value,
+    });
+  };
+  
+
   const handlePhotoChange = (event) => {
     setProduct({
       ...product,
@@ -40,8 +51,34 @@ const ProductForm = () => {
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    event.preventDefault();
+    const { id, name } = product;
+    const { description, price, weight, photo } = product;
+  
+    if (id) {
+      console.log('Data succesfully post from the Front-end')
+      axios.post('http://localhost:4000/product/new', {
+        id,
+        name,
+        description,
+        price,
+        weight,
+        photo
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+    } else {
+      alert('Please fill all the fields')
+    }
+
+
+    
   };
 
   return (
@@ -49,6 +86,17 @@ const ProductForm = () => {
       <CardContent>
         <form onSubmit={handleSubmit}>
           <Grid container spacing={5}>
+          <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Id"
+                name="id"
+                value={product.id}
+                onChange={handleChange}
+                required
+                variant="outlined"
+              />
+            </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth

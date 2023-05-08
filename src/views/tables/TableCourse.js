@@ -77,6 +77,11 @@ import TableBody from '@mui/material/TableBody'
 import TableContainer from '@mui/material/TableContainer'
 import TableRow from '@mui/material/TableRow'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
+import axios from 'axios';
+import { IconButton } from '@material-ui/core';
+import{ Delete, Edit} from '@material-ui/icons';
+
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -99,33 +104,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }))
 
-const createData = (First_Name, Last_Name, Email, Address, Phone_Number, Course_Type) => {
-  return {First_Name, Last_Name, Email, Address, Phone_Number, Course_Type }
+const createData = (First_Name, Last_Name, Email, Address, Phone_Number, Course_Type, Action) => {
+  return {First_Name, Last_Name, Email, Address, Phone_Number, Course_Type, Action }
 }
 
 const TableCustomized = () => {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    // //establish connection to MongoDB using a driver, for example:
-    // //import mongodb from 'mongodb';
-    // //const MongoClient = mongodb.MongoClient;
-    // //const uri = 'mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority';
-    // //const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    // //await client.connect();
-    // //const collection = client.db('<dbname>').collection('<collectionname>');
 
-    // //fetch data from MongoDB collection
-    // collection.find({}).toArray((err, data) => {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     setRows(data.map(row => createData(row.First_Name, row.Last_Name, row.Email, row.Address, row.Phone_Number, row.Course_Type)));
-    //   }
-    // });
-
-    // //close the connection
-    // //await client.close();
+    axios.get('http://localhost:4000/api/courseData')
+    .then(response => {
+      // handle the response and update the state
+      setRows(response.data.map(row => createData(row.firstname, row.lastname, row.email, row.address, row.phonenumber, row.course)));
+    })
+    .catch(error => {
+      // handle the error
+      console.log(error);
+    });
   }, []);
 
   return (
@@ -139,6 +135,7 @@ const TableCustomized = () => {
             <StyledTableCell align='right'>Address</StyledTableCell>
             <StyledTableCell align='right'>Phone_Number</StyledTableCell>
             <StyledTableCell align='right'>Course_Type</StyledTableCell>
+            <StyledTableCell align='right'>Actions</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -150,6 +147,15 @@ const TableCustomized = () => {
               <StyledTableCell align='right'>{row.Address}</StyledTableCell>
               <StyledTableCell align='right'>{row.Phone_Number}</StyledTableCell>
               <StyledTableCell align='right'>{row.Course_Type}</StyledTableCell>
+              <StyledTableCell align='right'> 
+              <IconButton onClick={() => handleEdit(row.id)}>
+                <Edit />
+              </IconButton>
+              <IconButton onClick={() => handleDelete(row.id)}>
+                <Delete />
+              </IconButton>
+          
+        </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

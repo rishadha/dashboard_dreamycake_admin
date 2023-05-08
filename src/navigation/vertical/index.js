@@ -17,26 +17,11 @@ const navigation = () => {
       icon: HomeOutline,
       path: '/'
     },
+    
     {
-      title: 'Account Settings',
-      icon: AccountCogOutline,
-      path: '/account-settings'
+      sectionTitle: 'user'
     },
-    {
-      sectionTitle: 'Pages'
-    },
-    {
-      title: 'Analysis',
-      icon: Login,
-      path: '/pages/login',
-      openInNewTab: true
-    },
-    {
-      title: 'Register',
-      icon: AccountPlusOutline,
-      path: '/pages/register',
-      openInNewTab: true
-    },
+    
   
     {
       title: 'User',
@@ -44,10 +29,16 @@ const navigation = () => {
       path: '/user'
     },
     {
+      sectionTitle: "Course"
+    },
+    {
       title: 'Course',
       icon: BookOpenOutline,
       path: '/pages/course',
-      openInNewTab: true
+      
+    },
+    {
+      sectionTitle: "Payment"
     },
     {
       title: 'payment',
@@ -55,14 +46,23 @@ const navigation = () => {
       icon: CreditCardOutline
     },
     {
+      sectionTitle: "Product"
+    },
+    {
       title: 'product',
       icon: PackageVariant,
       path: '/products'
     },
     {
+      sectionTitle: "Order"
+    },
+    {
       title: 'Order',
       icon: OrderBoolAscending,
       path: '/order'
+    },
+    {
+      sectionTitle: "Delivery"
     },
     {
       icon: TruckDelivery,

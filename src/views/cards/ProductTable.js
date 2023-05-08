@@ -20,6 +20,7 @@ const ProductTable = () => {
   }, []);
 
   const columns = [
+    { field: 'id', headerName: 'id', width: 200 },
     { field: 'name', headerName: 'Name', width: 200 },
     { field: 'description', headerName: 'Description', width: 200 },
     { field: 'price', headerName: 'Price', width: 150 },

@@ -20,8 +20,8 @@ const FooterContent = () => {
           Dreamy Cake
         </Link>
       </Typography>
-      {hidden ? null : (
-        <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
+      {/* {hidden ? null : ( */}
+        {/* // <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}> */}
           {/* <Link
             target='_blank'
             href='https://github.com/themeselection/materio-mui-react-nextjs-admin-template-free/blob/main/LICENSE'
@@ -43,8 +43,8 @@ const FooterContent = () => {
           >
             Support
           </Link> */}
-        </Box>
-      )}
+        {/* // </Box> */}
+      {/* )} */}
     </Box>
   )
 }

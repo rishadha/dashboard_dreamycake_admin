@@ -6,9 +6,9 @@ const DefaultPalette = (mode, themeColor) => {
 
   const primaryGradient = () => {
     if (themeColor === 'primary') {
-      return '#C6A7FE'
+      return '#ff70ba'
     } else if (themeColor === 'secondary') {
-      return '#9C9FA4'
+      return '#ffb8dd'
     } else if (themeColor === 'success') {
       return '#93DD5C'
     } else if (themeColor === 'error') {
@@ -16,7 +16,7 @@ const DefaultPalette = (mode, themeColor) => {
     } else if (themeColor === 'warning') {
       return '#FFCF5C'
     } else {
-      return '#6ACDFF'
+      return '#fc90c8'
     }
   }
 
@@ -33,14 +33,14 @@ const DefaultPalette = (mode, themeColor) => {
     mode: mode,
     primary: {
       light: '#9E69FD',
-      main: '#9155FD',
+      main: '#ff2b98',
       dark: '#804BDF',
       contrastText: '#FFF'
     },
     secondary: {
-      light: '#9C9FA4',
-      main: '#8A8D93',
-      dark: '#777B82',
+      light: '#ed80a8',
+      main: '#ed80a8',
+      dark: '#ed80a8',
       contrastText: '#FFF'
     },
     success: {
@@ -90,8 +90,8 @@ const DefaultPalette = (mode, themeColor) => {
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
-      paper: mode === 'light' ? '#FFF' : '#312D4B',
-      default: mode === 'light' ? '#F4F5FA' : '#28243D'
+      paper: mode === 'light' ? '#FFF' : '#0000',
+      default: mode === 'light' ? '#fae6f1' : '#171616'
     },
     action: {
       active: `rgba(${mainColor}, 0.54)`,

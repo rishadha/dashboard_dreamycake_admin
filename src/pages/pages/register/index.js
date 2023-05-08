@@ -38,6 +38,8 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV1 from 'src/views/pages/auth/FooterIllustration'
 
+import axios from 'axios';
+
 // ** Styled Components
 const Card = styled(MuiCard)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: { width: '28rem' }
@@ -61,6 +63,8 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 const RegisterPage = () => {
   // ** States
   const [values, setValues] = useState({
+    name:'',
+    email: '',
     password: '',
     showPassword: false
   })
@@ -79,6 +83,18 @@ const RegisterPage = () => {
   const handleMouseDownPassword = event => {
     event.preventDefault()
   }
+
+  const handleSignUp = async () => {
+    try {
+      const {  name,email, password } = values;
+      const response = await axios.post('http://localhost:4000/api/registration');
+      name,  
+      email,
+      password
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   return (
     <Box className='content-center'>
@@ -159,13 +175,15 @@ const RegisterPage = () => {
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-              Adventure starts here 🚀
+            Sweet dreams begin with cake and course registration 🍰📚
             </Typography>
-            <Typography variant='body2'>Make your app management easy and fun!</Typography>
+            <Typography variant='body2'>Love At First Bit!</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='username' label='Username' sx={{ marginBottom: 4 }} />
-            <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} />
+          <TextField fullWidth type='name' label='Name' sx={{ marginBottom: 4 }} 
+           onChange={handleChange("Name")} />
+            <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} 
+           onChange={handleChange("email")} />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
               <OutlinedInput
@@ -199,7 +217,8 @@ const RegisterPage = () => {
                 </Fragment>
               }
             />
-            <Button fullWidth size='large' type='submit' variant='contained' sx={{ marginBottom: 7 }}>
+            <Button fullWidth size='large' type='submit' variant='contained' sx={{ marginBottom: 7 }}
+            onClick={handleSignUp}>
               Sign up
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
@@ -244,6 +263,6 @@ const RegisterPage = () => {
     </Box>
   )
 }
-RegisterPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
+RegisterPage.getLayout = page => <BlankLayout>{page}</BlankLayout>;
 
-export default RegisterPage
+export default RegisterPage;
