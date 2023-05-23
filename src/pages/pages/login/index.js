@@ -59,26 +59,56 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 
 const LoginPage = () => {
   // ** State
-  const [values, setValues] = useState({
-    password: '',
-    showPassword: false
-  })
 
-  // ** Hook
+
   const theme = useTheme()
-  const router = useRouter()
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    showPassword: false,
+  });
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
-  }
+  const router = useRouter();
+
+  const handleChange = (prop) => (event) => {
+    setFormData({ ...formData, [prop]: event.target.value });
+  };
 
   const handleClickShowPassword = () => {
-    setValues({ ...values, showPassword: !values.showPassword })
-  }
+    setFormData({ ...formData, showPassword: !formData.showPassword });
+  };
 
-  const handleMouseDownPassword = event => {
-    event.preventDefault()
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch('http://localhost:4000/api/login', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email: formData.email, password: formData.password }),
+          credentials: 'include',  // Include cookies in the request
+      });
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      // If login was successful, the server should have set a cookie containing the token
+      // The browser will automatically include this cookie in future requests
+      const data = await response.json();
+      console.log(data);
+
+  } catch (error) {
+      console.error(error);
   }
+  }
+  
 
   return (
     <Box className='content-center'>
@@ -163,30 +193,37 @@ const LoginPage = () => {
             </Typography>
             <Typography variant='body2'>Please sign-in to your account </Typography>
           </Box>
-          <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-            <TextField autoFocus fullWidth id='email' label='Email' sx={{ marginBottom: 4 }} />
-            <FormControl fullWidth>
-              <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
-              <OutlinedInput
-                label='Password'
-                value={values.password}
-                id='auth-login-password'
-                onChange={handleChange('password')}
-                type={values.showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position='end'>
-                    <IconButton
-                      edge='end'
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      aria-label='toggle password visibility'
-                    >
-                      {values.showPassword ? <EyeOutline /> : <EyeOffOutline />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+          <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+          <TextField 
+              autoFocus 
+              fullWidth 
+              id='email' 
+              label='Email' 
+              sx={{ marginBottom: 4 }} 
+              value={formData.email}
+              onChange={handleChange('email')}
+            />            <FormControl fullWidth>
+            <InputLabel htmlFor='auth-login-password'>Password</InputLabel>
+            <OutlinedInput
+              label='Password'
+              value={formData.password}
+              id='auth-login-password'
+              onChange={handleChange('password')}
+              type={formData.showPassword ? 'text' : 'password'}
+              endAdornment={
+                <InputAdornment position='end'>
+                  <IconButton
+                    edge='end'
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    aria-label='toggle password visibility'
+                  >
+                    {formData.showPassword ? <EyeOutline /> : <EyeOffOutline />}
+                  </IconButton>
+                </InputAdornment>
+              }
+            />
+          </FormControl>
             <Box
               sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
             >
@@ -200,7 +237,7 @@ const LoginPage = () => {
               size='large'
               variant='contained'
               sx={{ marginBottom: 7 }}
-              onClick={() => router.push('/')}
+              type="submit"
             >
               Login
             </Button>

@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import Collapse from '@mui/material/Collapse'
 import TableRow from '@mui/material/TableRow'
 import TableHead from '@mui/material/TableHead'
-import { useState, useEffect } from 'react';
 
 import { styled } from '@mui/material/styles'
 
@@ -34,33 +34,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   }
 }))
 
-const createData = (Name, Address, District, Postal_Code, Phone_Number ) => {
-  return {Name, Address, District, postal_Code, Phone_Number }
-}
-
 const TableCustomized = () => {
-  const [rows, setRows] = useState([]);
+  const [deliveries, setDeliveries] = useState([]);
 
   useEffect(() => {
-    // //establish connection to MongoDB using a driver, for example:
-    // //import mongodb from 'mongodb';
-    // //const MongoClient = mongodb.MongoClient;
-    // //const uri = 'mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority';
-    // //const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-    // //await client.connect();
-    // //const collection = client.db('<dbname>').collection('<collectionname>');
-
-    // //fetch data from MongoDB collection
-    // collection.find({}).toArray((err, data) => {
-    //   if (err) {
-    //     console.log(err);
-    //   } else {
-    //     setRows(data.map(row => createData(row.First_Name, row.Last_Name, row.Email, row.Address, row.Phone_Number, row.Course_Type)));
-    //   }
-    // });
-
-    // //close the connection
-    // //await client.close();
+    fetch("http://localhost:4000/api/deliveries")
+      .then((response) => response.json())
+      .then((data) => setDeliveries(data))
+      .catch((error) => console.error(error));
   }, []);
 
   return (
@@ -68,8 +49,7 @@ const TableCustomized = () => {
       <Table sx={{ minWidth: 700 }} aria-label='customized table'>
         <TableHead>
           <TableRow>
-     
-          <StyledTableCell align='right'>Name</StyledTableCell>
+            <StyledTableCell align='right'>Name</StyledTableCell>
             <StyledTableCell align='right'>Address</StyledTableCell>
             <StyledTableCell align='right'>District</StyledTableCell>
             <StyledTableCell align='right'>Postal_Code</StyledTableCell>
@@ -77,24 +57,17 @@ const TableCustomized = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell align='right'>{row.Name}</StyledTableCell>
-              <StyledTableCell align='right'>{row.Address}</StyledTableCell>
-              <StyledTableCell align='right'>{row.District}</StyledTableCell>
-              <StyledTableCell align='right'>{row.Postal_Code}</StyledTableCell>
-              <StyledTableCell align='right'>{row.Phone_Number}</StyledTableCell>
-
-            </StyledTableRow>             
-            
+          {deliveries.map(delivery => (
+            <StyledTableRow key={delivery._id}>
+              <StyledTableCell align='right'>{delivery.name}</StyledTableCell>
+              <StyledTableCell align='right'>{delivery.address}</StyledTableCell>
+              <StyledTableCell align='right'>{delivery.district}</StyledTableCell>
+              <StyledTableCell align='right'>{delivery.postalcode}</StyledTableCell>
+              <StyledTableCell align='right'>{delivery.phonenumber}</StyledTableCell>
+            </StyledTableRow>
           ))}
         </TableBody>
       </Table>
-
-
-
-
-
     </TableContainer>
   )
 }

@@ -1,23 +1,36 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import ProductTable from 'src/views/cards/ProductTable';
 import { PDFExport, savePDF } from '@progress/kendo-react-pdf';
 import ProductForm from 'src/views/cards/ProductForm';
 import Button from '@mui/material/Button';
+import axios from 'axios';
 
 const ProductTableWithRef = React.forwardRef((props, ref) => {
   return (
     <table ref={ref}>
-      {/* table content */}
-      
+      <tbody>
+        {Array.isArray(props.products) && props.products.map((product, index) => (
+          <tr key={index}>
+            <td>{product.name}</td>
+            <td>{product.description}</td>
+            <td>{product.price}</td>
+            <td>{product.weight}</td>
+          </tr>
+        ))}
+
+      </tbody>
     </table>
   );
 });
 
 const CardBasic = () => {
+  const [products, setProducts] = useState([]);
   const pdfExportComponent = useRef(null);
   const tableRef = useRef(null);
+
+
 
   const exportPDF = () => {
     if (pdfExportComponent.current) {
@@ -29,7 +42,7 @@ const CardBasic = () => {
     const tableContent = tableRef.current.outerHTML;
     const printWindow = window.open('', '_blank');
     printWindow.document.write('<html><head><title>Dreamy cake </title></head><body>');
-    printWindow.document.write(<ProductTable/>);
+    printWindow.document.write(tableContent);
     printWindow.document.write('</body></html>');
     printWindow.document.close();
     printWindow.print();
@@ -44,10 +57,10 @@ const CardBasic = () => {
         <ProductForm />
       </Grid>
       <Grid item xs={12} sx={{ position: 'relative' }}>
-      <PDFExport ref={pdfExportComponent}>
+        <PDFExport ref={pdfExportComponent}>
           <ProductTable />
         </PDFExport>
-        <ProductTableWithRef ref={tableRef} />
+        <ProductTableWithRef ref={tableRef} products={products} />
         <div
           sx={{
             display: 'flex',
@@ -58,14 +71,14 @@ const CardBasic = () => {
           }}
         >
           <Button fullWidth variant="contained" color="primary" type="submit" onClick={printTable} sx={{ width: '120px' }}>
-          Print
+            Print
           </Button>
           <Button fullWidth variant="contained" color="primary" type="submit" onClick={exportPDF} sx={{ width: '160px' }}>
-          Export to PDF
+            Export to PDF
           </Button>
-         
+
         </div>
-        
+
       </Grid>
     </Grid>
   );

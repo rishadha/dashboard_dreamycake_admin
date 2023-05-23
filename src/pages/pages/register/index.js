@@ -63,18 +63,20 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 const RegisterPage = () => {
   // ** States
   const [values, setValues] = useState({
-    name:'',
+    name: '',
     email: '',
     password: '',
     showPassword: false
   })
 
+
   // ** Hook
   const theme = useTheme()
 
-  const handleChange = prop => event => {
-    setValues({ ...values, [prop]: event.target.value })
+  const handleChange = (prop) => (e) => {
+    setValues({ ...values, [prop]: e.target.value })
   }
+
 
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword })
@@ -86,16 +88,15 @@ const RegisterPage = () => {
 
   const handleSignUp = async () => {
     try {
-      const {  name,email, password } = values;
-      const response = await axios.post('http://localhost:4000/api/registration');
-      name,  
-      email,
-      password
+      const { name, email, password } = values;
+      const response = await axios.post('http://localhost:4000/api/registration', { name, email, password });
+      console.log(response.data);
     } catch (error) {
       console.error(error.message);
     }
   };
 
+  console.log('hirrrrrrrrrrr')
   return (
     <Box className='content-center'>
       <Card sx={{ zIndex: 1 }}>
@@ -175,22 +176,34 @@ const RegisterPage = () => {
           </Box>
           <Box sx={{ mb: 6 }}>
             <Typography variant='h5' sx={{ fontWeight: 600, marginBottom: 1.5 }}>
-            Sweet dreams begin with cake and course registration 🍰📚
+              Sweet dreams begin with cake and course registration 🍰📚
             </Typography>
             <Typography variant='body2'>Love At First Bit!</Typography>
           </Box>
           <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-          <TextField fullWidth type='name' label='Name' sx={{ marginBottom: 4 }} 
-           onChange={handleChange("Name")} />
-            <TextField fullWidth type='email' label='Email' sx={{ marginBottom: 4 }} 
-           onChange={handleChange("email")} />
+            <TextField
+              fullWidth
+              name='name'
+              type='name'
+              label='Name'
+              sx={{ marginBottom: 4 }}
+              onChange={handleChange("name")}
+            />
+            <TextField
+              fullWidth
+              name='email'
+              type='email'
+              label='Email'
+              sx={{ marginBottom: 4 }}
+              onChange={handleChange("email")}
+            />
             <FormControl fullWidth>
               <InputLabel htmlFor='auth-register-password'>Password</InputLabel>
               <OutlinedInput
                 label='Password'
-                value={values.password}
+                name='password'
                 id='auth-register-password'
-                onChange={handleChange('password')}
+                onChange={handleChange("password")}
                 type={values.showPassword ? 'text' : 'password'}
                 endAdornment={
                   <InputAdornment position='end'>
@@ -218,7 +231,7 @@ const RegisterPage = () => {
               }
             />
             <Button fullWidth size='large' type='submit' variant='contained' sx={{ marginBottom: 7 }}
-            onClick={handleSignUp}>
+              onClick={handleSignUp}>
               Sign up
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
