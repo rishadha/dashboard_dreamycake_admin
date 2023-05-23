@@ -103,6 +103,7 @@ const LoginPage = () => {
       // The browser will automatically include this cookie in future requests
       const data = await response.json();
       console.log(data);
+      router.push('/');
 
   } catch (error) {
       console.error(error);
